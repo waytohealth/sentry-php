@@ -33,50 +33,51 @@ class SpanItem implements EnvelopeItemInterface
         ];
 
         $payload = [
-            'platform' => 'php',
+            'platform' => 'php', // -> attr.sentry.platform
             'sdk' => [
-                'name' => $event->getSdkIdentifier(),
-                'version' => $event->getSdkVersion(),
+                'name' => $event->getSdkIdentifier(), // -> attr.sentry.sdk.name
+                'version' => $event->getSdkVersion(), // -> attr.sentry.sdk.version
             ],
         ];
 
         $span = $event->getSpan();
 
-        $payload['start_timestamp'] = $span->startTimestamp;
-        $payload['timestamp'] = $span->endTimestamp;
-        $payload['exclusive_time'] = $span->exclusiveTime;
+        $payload['start_timestamp'] = $span->startTimestamp; // -> end_time_unix_nano
+        $payload['timestamp'] = $span->endTimestamp; // -> end_time_unix_nano
+        
+        $payload['exclusive_time'] = $span->exclusiveTime; // TBD maybe not
 
-        $payload['trace_id'] = (string) $span->traceId;
-        $payload['segment_id'] = (string) $span->segmentId;
-        $payload['span_id'] = (string) $span->spanId;
+        $payload['trace_id'] = (string) $span->traceId; // trace_id
+        $payload['segment_id'] = (string) $span->segmentId; // attr.sentry.segment_id
+        $payload['span_id'] = (string) $span->spanId; // span_id
 
         $payload['is_segment'] = $span->isSegment;
 
         if ($span->description !== null) {
-            $payload['description'] = $span->description;
+            $payload['description'] = $span->description; // name
         }
 
         if ($span->op !== null) {
-            $payload['op'] = $span->op;
+            $payload['op'] = $span->op; // attr.sentry.op
         }
 
         if ($span->status !== null) {
-            $payload['status'] = $span->status;
+            $payload['status'] = $span->status; // status
         }
 
         if ($span->data !== null) {
-            $payload['data'] = $span->data;
+            $payload['data'] = $span->data; // attributes
         }
 
         if ($event->getRelease() !== null) {
-            $payload['release'] = $event->getRelease();
+            $payload['release'] = $event->getRelease(); // attr.sentry.release -> check for convetion
         }
 
         if ($event->getEnvironment() !== null) {
-            $payload['environment'] = $event->getEnvironment();
+            $payload['environment'] = $event->getEnvironment(); // attr.sentry.environment -> check for convetion
         }
 
-        // TBD: status
+        // TBD: status -> otel convetion, other status will be on attributes
         // TBD: transaction
         // TBD: trace-origin
         // TBD: profiling
