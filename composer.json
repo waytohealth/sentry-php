@@ -1,5 +1,5 @@
 {
-    "name": "sentry/sentry",
+    "name": "waytohealth/sentry",
     "type": "library",
     "description": "PHP SDK for Sentry (http://sentry.io)",
     "keywords": [
