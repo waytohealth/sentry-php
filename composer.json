@@ -51,6 +51,9 @@
     "suggest": {
         "monolog/monolog": "Allow sending log messages to Sentry by using the included Monolog handler."
     },
+    "replace": {
+        "sentry/sentry": "2.5.2"
+    },
     "conflict": {
         "php-http/client-common": "1.8.0",
         "raven/raven": "*"
